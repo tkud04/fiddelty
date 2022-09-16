@@ -1,0 +1,27 @@
+.vv{
+	visibility: visible !important;
+}
+.hh{
+	visibility: hidden !important;
+}
+
+.error-span{
+	color: red;
+}
+
+.main-content{
+	max-width: 100%;
+}
+
+	#assertive-div{
+		place-content: stretch center;
+	}
+	
+@media only screen and (max-width: 768px) {
+	.main-content{
+		max-width: 70%;
+	}
+	#assertive-div{
+		place-content: flex-start;
+	}
+}
