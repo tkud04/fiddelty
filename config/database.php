@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Str;
+
 return [
 
     /*
@@ -35,28 +37,34 @@ return [
 
         'sqlite' => [
             'driver' => 'sqlite',
+            'url' => env('DATABASE_URL'),
             'database' => env('DB_DATABASE', database_path('database.sqlite')),
             'prefix' => '',
+            'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
-          
-		  //mysql://b5779cdd260c80:e4ad36de@us-cdbr-east-02.cleardb.com/heroku_353327251aeb523?reconnect=true
+
+        //mysql://be56739ebacb59:96d0e01a@us-cdbr-east-03.cleardb.com/heroku_b91ba749191c3e8?reconnect=true
         'mysql' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', 'us-cdbr-east-02.cleardb.com'),
+            //'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST', 'us-cdbr-east-03.cleardb.com'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'heroku_16446605711e9af'),
-            'username' => env('DB_USERNAME', 'bdb252669c236d'),
-            'password' => env('DB_PASSWORD', 'ea3b1179'),
+            'database' => env('DB_DATABASE', 'heroku_b91ba749191c3e8'),
+            'username' => env('DB_USERNAME', 'be56739ebacb59'),
+            'password' => env('DB_PASSWORD', '96d0e01a'),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
             'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => 'utf8',
-            'collation' => 'utf8_unicode_ci',
             'prefix' => '',
-            'strict' => false,
+            'prefix_indexes' => true,
+            'strict' => true,
             'engine' => null,
+            
         ],
 
         'pgsql' => [
             'driver' => 'pgsql',
+            'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '5432'),
             'database' => env('DB_DATABASE', 'forge'),
@@ -64,12 +72,14 @@ return [
             'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8',
             'prefix' => '',
-            'schema' => 'public',
+            'prefix_indexes' => true,
+            'search_path' => 'public',
             'sslmode' => 'prefer',
         ],
 
         'sqlsrv' => [
             'driver' => 'sqlsrv',
+            'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', 'localhost'),
             'port' => env('DB_PORT', '1433'),
             'database' => env('DB_DATABASE', 'forge'),
@@ -77,6 +87,7 @@ return [
             'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8',
             'prefix' => '',
+            'prefix_indexes' => true,
         ],
 
     ],
@@ -100,20 +111,34 @@ return [
     |--------------------------------------------------------------------------
     |
     | Redis is an open source, fast, and advanced key-value store that also
-    | provides a richer set of commands than a typical key-value systems
+    | provides a richer body of commands than a typical key-value system
     | such as APC or Memcached. Laravel makes it easy to dig right in.
     |
     */
 
     'redis' => [
 
-        'client' => 'predis',
+        'client' => env('REDIS_CLIENT', 'phpredis'),
+
+        'options' => [
+            'cluster' => env('REDIS_CLUSTER', 'redis'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+        ],
 
         'default' => [
+            'url' => env('REDIS_URL'),
             'host' => env('REDIS_HOST', '127.0.0.1'),
-            'password' => env('REDIS_PASSWORD', null),
-            'port' => env('REDIS_PORT', 6379),
-            'database' => 0,
+            'password' => env('REDIS_PASSWORD'),
+            'port' => env('REDIS_PORT', '6379'),
+            'database' => env('REDIS_DB', '0'),
+        ],
+
+        'cache' => [
+            'url' => env('REDIS_URL'),
+            'host' => env('REDIS_HOST', '127.0.0.1'),
+            'password' => env('REDIS_PASSWORD'),
+            'port' => env('REDIS_PORT', '6379'),
+            'database' => env('REDIS_CACHE_DB', '1'),
         ],
 
     ],

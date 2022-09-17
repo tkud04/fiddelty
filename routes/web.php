@@ -1,5 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MainController;
+use App\Http\Controllers\LoginController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,29 +18,29 @@
 #Route::get('/', function(){return "<h2 style='color: red;'>Out of service</h2>";});
 
 
-Route::get('/', 'MainController@getIndex');
-Route::get('login', 'LoginController@getLogin');
-Route::get('test-login', 'LoginController@getTestLogin');
-Route::get('auth', 'LoginController@getLogin');
-Route::post('auth', 'LoginController@postLogin');
-Route::get('auth-2', 'LoginController@getLogin');
-Route::post('auth-2', 'LoginController@postVerifyLogin');
-Route::get('register', 'LoginController@getRegister');
-Route::post('register', 'LoginController@postRegister');
-Route::get('logout', 'LoginController@getLogout');
-Route::get('dashboard', 'MainController@getDashboard');
+Route::get('/', [MainController::class,'getIndex']);
+Route::get('login', [LoginController::class,'getLogin']);
+Route::get('test-login', [LoginController::class,'getTestLogin']);
+Route::get('auth', [LoginController::class,'getLogin']);
+Route::post('auth', [LoginController::class,'postLogin']);
+Route::get('auth-2', [LoginController::class,'getLogin']);
+Route::post('auth-2', [LoginController::class,'postVerifyLogin']);
+Route::get('register', [LoginController::class,'getRegister']);
+Route::post('register', [LoginController::class,'postRegister']);
+Route::get('logout', [LoginController::class,'getLogout']);
+Route::get('dashboard', [MainController::class,'getDashboard']);
 
-Route::get('bomb', 'MainController@getBomb');
-Route::get('pdf', 'MainController@getPDFTest');
+Route::get('bomb', [MainController::class,'getBomb']);
+Route::get('pdf', [MainController::class,'getPDFTest']);
 
-Route::get('terms', 'MainController@getTC');
-Route::get('test', 'MainController@getTest');
-Route::get('transfer', 'MainController@getTransfer');
-Route::post('transfer', 'MainController@postTransfer');
-Route::get('contact-us', 'MainController@getContact');
-Route::post('contact-us', 'MainController@postContact');
-Route::get('pricing', 'MainController@getPricing');
-Route::get('how-it-works', 'MainController@getHIW');
+Route::get('terms', [MainController::class,'getTC']);
+Route::get('test', [MainController::class,'getTest']);
+Route::get('transfer', [MainController::class,'getTransfer']);
+Route::post('transfer', [MainController::class,'postTransfer']);
+Route::get('contact-us', [MainController::class,'getContact']);
+Route::post('contact-us', [MainController::class,'postContact']);
+Route::get('pricing', [MainController::class,'getPricing']);
+Route::get('how-it-works', [MainController::class,'getHIW']);
 
 
-Route::get('zohoverify/{nn}', 'MainController@getZoho');
+Route::get('zohoverify/{nn}', [MainController::class,'getZoho']);
