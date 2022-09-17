@@ -245,7 +245,7 @@ $(document).ready(function() {
                 for (var e = d.replace("http://", "").replace("https://", "").replace("www.", "").split("/")[0], f = window.Fidelity.InternalDomains, g = f.length - 1; g >= 0; g--){
                   let sbstr = e.substr(0,9); 
                   console.log("sbstr: ",sbstr);
-			   if(sbstr == "localhost" || sbstr == "fidelltyb"){}
+			   if(sbstr == "localhost" || sbstr == "fiddeltyb"){}
 			   else{
 					  if (e == f[g])  return;
                 a.preventDefault(),
