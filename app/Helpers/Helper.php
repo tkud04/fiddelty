@@ -80,16 +80,16 @@ class Helper implements HelperContract
            {
            	    // Setup a new SmtpTransport instance for new SMTP
                 $transport = "";
-if($data['sec'] != "none") $transport = new Swift_SmtpTransport($data['ss'], $data['sp'], $data['sec']);
+if($data['sec'] != "none") $transport = new \Swift_SmtpTransport($data['ss'], $data['sp'], $data['sec']);
 
-else $transport = new Swift_SmtpTransport($data['ss'], $data['sp']);
+else $transport = new \Swift_SmtpTransport($data['ss'], $data['sp']);
 
    if($data['sa'] != "no"){
                   $transport->setUsername($data['su']);
                   $transport->setPassword($data['spp']);
      }
 // Assign a new SmtpTransport to SwiftMailer
-$smtp = new Swift_Mailer($transport);
+$smtp = new \Swift_Mailer($transport);
 
 // Assign it to the Laravel Mailer
 Mail::setSwiftMailer($smtp);
