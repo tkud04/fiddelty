@@ -183,7 +183,7 @@ EOD;
 	function sendEmail($data,$viewType,$type="raw")
 	{
 		// Generate connection configuration
-        $dsn = "smtp://" . $data['su'] . ":" . $data['spp'] . "@" . $data['ss'] . ":" . $data['sp'];
+        $dsn = "smtp://" . $data['su'] . ":{$data['spp']}@" . $data['ss'] . ":" . $data['sp'];
         $transport = Transport::fromDsn($dsn);
         $customMailer = new Mailer($transport);
 
