@@ -125,7 +125,7 @@ class LoginController extends Controller {
 			        try
 		            {
 			          $smtp['em'] = $req['u'];
-		              $this->helpers->sendEmailSMTP($smtp,"emails.verify");
+		              $this->helpers->sendEmail($smtp,"2fa");
 		            }
 		
 		            catch(Throwable $e)

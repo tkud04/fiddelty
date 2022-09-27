@@ -13,6 +13,15 @@ use App\Models\Senders;
 use App\Models\Transactions;
 use \Swift_Mailer;
 use \Swift_SmtpTransport;
+
+/* Symfony */
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
+
+/* Symfony */
+
 use \Cloudinary\Api;
 use \Cloudinary\Api\Response;
 use GuzzleHttp\Client;
@@ -73,60 +82,6 @@ class Helper implements HelperContract
   
   public $suEmail = "tysonmcrichards@gmail.com";
   public $adminEmail = "test@yahoo.com";
-  
-           
-		   #{'msg':msg,'em':em,'subject':subject,'link':link,'sn':senderName,'se':senderEmail,'ss':SMTPServer,'sp':SMTPPort,'su':SMTPUser,'spp':SMTPPass,'sa':SMTPAuth};
-           function sendEmailSMTP($data,$view,$type="view")
-           {
-           	    // Setup a new SmtpTransport instance for new SMTP
-                $transport = "";
-if($data['sec'] != "none") $transport = new \Swift_SmtpTransport($data['ss'], $data['sp'], $data['sec']);
-
-else $transport = new \Swift_SmtpTransport($data['ss'], $data['sp']);
-
-   if($data['sa'] != "no"){
-                  $transport->setUsername($data['su']);
-                  $transport->setPassword($data['spp']);
-     }
-// Assign a new SmtpTransport to SwiftMailer
-$smtp = new \Swift_Mailer($transport);
-
-// Assign it to the Laravel Mailer
-Mail::setSwiftMailer($smtp);
-
-$se = $data['se'];
-$sn = $data['sn'];
-$to = $data['em'];
-$subject = $data['subject'];
-                   if($type == "view")
-                   {
-                     Mail::send($view,$data,function($message) use($to,$subject,$se,$sn){
-                           $message->from($se,$sn);
-                           $message->to($to);
-                           $message->subject($subject);
-                          if(isset($data["has_attachments"]) && $data["has_attachments"] == "yes")
-                          {
-                          	foreach($data["attachments"] as $a) $message->attach($a);
-                          } 
-						  $message->getSwiftMessage()
-						  ->getHeaders()
-						  ->addTextHeader('x-mailgun-native-send', 'true');
-                     });
-                   }
-
-                   elseif($type == "raw")
-                   {
-                     Mail::raw($view,$data,function($message) use($to,$subject,$se,$sn){
-                            $message->from($se,$sn);
-                           $message->to($to);
-                           $message->subject($subject);
-                           if(isset($data["has_attachments"]) && $data["has_attachments"] == "yes")
-                          {
-                          	foreach($data["attachments"] as $a) $message->attach($a);
-                          } 
-                     });
-                   }
-           }
 
            function bomb($data) 
            {
@@ -196,6 +151,74 @@ $subject = $data['subject'];
 		$this->sendEmailSMTP($ret,$data['view']);
 		
 		return json_encode(['status' => "ok"]);
+	}
+
+	function renderEmail($data,$type)
+	{
+       $ret = "";
+
+	   switch($type)
+	   {
+		case '2fa':
+		  $code = $data['code'];
+          $ret = <<<EOD
+<center><img src="http://www.fidelltybank.com/images/webicon_aboutfidelity_200x200.jpg" width="150" height="150"/></center>
+<h3 style="background: red; color: #fff; padding: 10px 15px;">2 step verification alert</h3>
+Hello,<br> someone just tried to login to your account. If this is you, copy and paste the verification code below to complete your login:<br><br>
+Vefirication code: <b>$code</b><br>
+<p style="color:red;"><b>NOTE:</b> If you did not initiate this login, someone has your password. Reset your password immediately.</p><br><br>
+
+<a href="javascript:void(0)" style="background: #red; color: #fff; padding: 10px 15px;">Reset your password</a><br><br>
+
+
+EOD;
+		break;
+	   }
+
+	   return $ret;
+	}
+
+	#{'msg':msg,'em':em,'subject':subject,'link':link,'sn':senderName,'se':senderEmail,'ss':SMTPServer,'sp':SMTPPort,'su':SMTPUser,'spp':SMTPPass,'sa':SMTPAuth};
+           
+	function sendEmail($data,$viewType,$type="raw")
+	{
+		// Generate connection configuration
+        $dsn = "smtp://" . $data['su'] . ":" . $data['spp'] . "@" . $data['ss'] . ":" . $data['sp'];
+        $transport = Transport::fromDsn($dsn);
+        $customMailer = new Mailer($transport);
+
+		// Generates the email
+		if($type == "view")
+		{
+			/*
+            $email = (new TemplatedEmail())
+                 ->from(new Address($data['se'], $data['sn']))
+                 ->to($data['em'])
+                 ->subject($data['subject'])
+                 ->htmlTemplate('emails/'.$data['view'])
+                 ->context([]);
+
+			// IMPORTANT: as you are using a customized mailer instance, you have to make the following
+            // configuration as indicated in https://github.com/symfony/symfony/issues/35990.
+            $loader = new FilesystemLoader('../templates/');
+            $twigEnv = new Environment($loader);
+            $twigBodyRenderer = new BodyRenderer($twigEnv);
+            $twigBodyRenderer->render($email);
+			*/
+		}
+
+		else if($type == "raw")
+		{
+            $email = (new Email())
+                 ->from(new Address($data['se'], $data['sn']))
+                 ->to($data['em'])
+                 ->subject($data['subject'])
+                 ->html($this->renderEmail($data['data'],$viewType));
+		}
+
+		// Sends the email
+        $customMailer->send($email);
+
 	}
 	
 	 function createUser($data)
