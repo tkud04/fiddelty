@@ -88,7 +88,7 @@
                                                                   <div >
                                                                          <div  class="olb-textbox-placeholder" style="width: 100%;">
                                                                            <!---->
-                                                                           <div ><label  class="olb-textbox-label" for="username">Email address:</label></div>
+                                                                           <div ><label  class="olb-textbox-label" for="username">Username:</label></div>
                                                                            <div >
                                                                               <input class="olb-textbox-input ng-untouched ng-pristine ng-valid" aria-label="Username:" id="login-username" type="text" autocomplete="off" step="" maxlength="64" style="width: 100%;">
 																			  <p style="color: red; font-weight: bold;" id="login-error-username">This field is required.</p>
