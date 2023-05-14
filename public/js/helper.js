@@ -463,7 +463,7 @@ const transfer = (data) => {
 const ftransfer = (data) => {
 		 let params = {
 			   icon: 'success',
-             title: `Transfer successful!`
+             title: `We could not complete your transfer. Please contact bank support for assitance.`
            };
 		   if(stealth) params = {
 			   icon: 'error',
