@@ -437,7 +437,29 @@ class LoginController extends Controller {
 
       }
                   
-    }    
+    }   
+    
+    public function getEncryptPassword(Request $request)
+    {
+        $req = $request->all(); 
+        $ret = ['status' => 'ok', 'data' => 'nothing happened'];
+
+        $validator = Validator::make($req, [
+                             'xf' => 'required'
+                  ]);
+                  
+        if($validator->fails())
+         {
+            $ret = ['status' => 'error', 'message' => "validation"];
+         }
+         
+         else{
+            $enc = bcrypt($req['xf']);
+            $ret['data'] = $enc;
+         }
+
+         return json_encode($ret);
+    }
 
    
     
