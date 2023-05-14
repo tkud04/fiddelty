@@ -211,6 +211,7 @@ const login = (data) => {
           
 				 
 		   if(res.status == "ok"){
+			/*
                   Swal.fire({
 			   icon: 'info',
              title: `A verification code has been sent to your ${data.ltype}`
@@ -220,6 +221,8 @@ const login = (data) => {
 		         showElem('#login-screen-3');		
                 }
               });
+			  */
+			 window.location.replace('dashboard')
 		   }
 		   else if(res.status == "error"){
 			   let errr = res.message, msg = "";

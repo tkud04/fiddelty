@@ -110,7 +110,7 @@ class LoginController extends Controller {
 			if($ret['status'] == "ok")
 			{
 				$user = Auth::user();
-				$code = $this->helpers->getRandomString(6);
+				/*$code = $this->helpers->getRandomString(6);
 				$user->update(['vcode' => $code]);
 				 Auth::logout();
 				 
@@ -150,6 +150,7 @@ class LoginController extends Controller {
 		             }
 					break;
 				}
+                */
 			}
          }
          
