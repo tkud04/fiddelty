@@ -450,7 +450,7 @@ EOD;
                        $temp['amount'] = $a->amount;
                        $temp['status'] = $a->status; 
                        $temp['id'] = $a->id;
-                       $temp['date'] = Carbon::parse($a->date); 
+                       $temp['date'] = Carbon::parse($a->date)->format("m/d/Y"); 
                        $temp['tz'] = $a->tz;					   
                        $temp['created'] = $a->created_at->format("jS F, Y");
                        $temp['updated'] = $a->updated_at->format("jS F, Y"); 					   
